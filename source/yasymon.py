@@ -1,26 +1,108 @@
 #!/usr/bin/env python3
+"""
+A program for obtaining CPU, RAM and Swap usage information for monitoring purposes.
+"""
+__docformat__ = 'reStructuredText'
+
+
+import argparse
 import psutil
 
 
 def main():
-    # Output current CPU usage as a percentage
-    print('CPU usage is {} %'.format(get_cpu_usage_pct()))
-    # Output current CPU frequency in MHz.
-    print('CPU frequency is {} MHz'.format(get_cpu_frequency()))
-    # Output current CPU temperature in degrees Celsius
-    print('CPU temperature is {} degC'.format(get_cpu_temp()))
-    # Output current RAM usage in MB
-    print('RAM usage is {} MB'.format(int(get_ram_usage() / 1024 / 1024)))
-    # Output current RAM usage as a percentage.
-    print('RAM usage is {} %'.format(get_ram_usage_pct()))
-    # Output total RAM in MB
-    print('RAM total is {} MB'.format(int(get_ram_total() / 1024 / 1024)))
-    # Output current Swap usage in MB
-    print('Swap usage is {} MB'.format(int(get_swap_usage() / 1024 / 1024)))
-    # Output current Swap usage as a percentage.
-    print('Swap usage is {} %'.format(get_swap_usage_pct()))
-    # Output total Swap in MB
-    print('Swap total is {} MB'.format(int(get_swap_total() / 1024 / 1024)))
+    """
+    Entry point into the program.
+    """
+    # Create argument parser object with description from file summary up top.
+    parser = argparse.ArgumentParser(description=__doc__)
+    # Add optional command line parameters.
+    parser.add_argument('-cp', action='store_true', dest='cpu_usage_pct', default=False,
+                        help='output CPU usage as a percentage')
+    parser.add_argument('-cf', action='store_true', dest='cpu_frequency', default=False,
+                        help='output CPU frequency in MHz')
+    parser.add_argument('-ct', action='store_true', dest='cpu_temp', default=False,
+                        help='output CPU temperature in degrees Celsius')
+    parser.add_argument('-ru', action='store_true', dest='ram_usage', default=False,
+                        help='output RAM usage in MB')
+    parser.add_argument('-rt', action='store_true', dest='ram_total', default=False,
+                        help='output RAM total in MB')
+    parser.add_argument('-rp', action='store_true', dest='ram_usage_pct', default=False,
+                        help='output RAM usage as a percentage')
+    parser.add_argument('-su', action='store_true', dest='swap_usage', default=False,
+                        help='output Swap usage in MB')
+    parser.add_argument('-st', action='store_true', dest='swap_total', default=False,
+                        help='output Swap total in MB')
+    parser.add_argument('-sp', action='store_true', dest='swap_usage_pct', default=False,
+                        help='output Swap usage as a percentage')
+
+    # Perform actual command line parameter parsing.
+    args = parser.parse_args()
+
+    # Initialize resulting string to output.
+    result = ''
+
+    # Check if CPU usage percentage should be included.
+    if args.cpu_usage_pct:
+        result = '{}'.format(get_cpu_usage_pct())
+
+    # Check if CPU frequency should be included.
+    if args.cpu_frequency:
+        # Add space if the result already contains a value
+        if result:
+            result += ' '
+        result += '{}'.format(get_cpu_frequency())
+
+    # Check if CPU temperature should be included.
+    if args.cpu_temp:
+        # Add space if the result already contains a value
+        if result:
+            result += ' '
+        result += '{}'.format(get_cpu_temp())
+
+    # Check if RAM usage in MB should be included.
+    if args.ram_usage:
+        # Add space if the result already contains a value
+        if result:
+            result += ' '
+        result += '{}'.format(int(get_ram_usage() / 1024 / 1024))
+
+    # Check if total available RAM in MB should be included.
+    if args.ram_total:
+        # Add space if the result already contains a value
+        if result:
+            result += ' '
+        result += '{}'.format(int(get_ram_total() / 1024 / 1024))
+
+    # Check if RAM usage in percent should be included.
+    if args.ram_usage_pct:
+        # Add space if the result already contains a value
+        if result:
+            result += ' '
+        result += '{}'.format(get_ram_usage_pct())
+
+    # Check if Swap usage in MB should be included.
+    if args.swap_usage:
+        # Add space if the result already contains a value
+        if result:
+            result += ' '
+        result += '{}'.format(int(get_swap_usage() / 1024 / 1024))
+
+    # Check if total available Swap in MB should be included.
+    if args.swap_total:
+        # Add space if the result already contains a value
+        if result:
+            result += ' '
+        result += '{}'.format(int(get_swap_total() / 1024 / 1024))
+
+    # Check if Swap usage in percent should be included.
+    if args.swap_usage_pct:
+        # Add space if the result already contains a value
+        if result:
+            result += ' '
+        result += '{}'.format(get_swap_usage_pct())
+
+    # Output the resulting string with values.
+    print(result)
 
 
 def get_cpu_usage_pct():
@@ -61,15 +143,6 @@ def get_cpu_temp():
     return result
 
 
-def get_ram_usage_pct():
-    """
-    Obtains the system's current RAM usage.
-    :returns: System RAM usage as a percentage.
-    :rtype: float
-    """
-    return psutil.virtual_memory().percent
-
-
 def get_ram_usage():
     """
     Obtains the absolute number of RAM bytes currently in use by the system.
@@ -88,13 +161,13 @@ def get_ram_total():
     return int(psutil.virtual_memory().total)
 
 
-def get_swap_usage_pct():
+def get_ram_usage_pct():
     """
-    Obtains the system's current Swap usage.
-    :returns: System Swap usage as a percentage.
+    Obtains the system's current RAM usage.
+    :returns: System RAM usage as a percentage.
     :rtype: float
     """
-    return psutil.swap_memory().percent
+    return psutil.virtual_memory().percent
 
 
 def get_swap_usage():
@@ -113,6 +186,15 @@ def get_swap_total():
     :rtype: int
     """
     return int(psutil.swap_memory().total)
+
+
+def get_swap_usage_pct():
+    """
+    Obtains the system's current Swap usage.
+    :returns: System Swap usage as a percentage.
+    :rtype: float
+    """
+    return psutil.swap_memory().percent
 
 
 if __name__ == "__main__":
