@@ -4,8 +4,8 @@ A program for obtaining CPU, RAM and Swap usage information for monitoring purpo
 """
 __docformat__ = 'reStructuredText'
 
-
-import argparse
+import sys
+import os
 import psutil
 
 
@@ -13,96 +13,92 @@ def main():
     """
     Entry point into the program.
     """
-    # Create argument parser object with description from file summary up top.
-    parser = argparse.ArgumentParser(description=__doc__)
-    # Add optional command line parameters.
-    parser.add_argument('-cp', action='store_true', dest='cpu_usage_pct', default=False,
-                        help='output CPU usage as a percentage')
-    parser.add_argument('-cf', action='store_true', dest='cpu_frequency', default=False,
-                        help='output CPU frequency in MHz')
-    parser.add_argument('-ct', action='store_true', dest='cpu_temp', default=False,
-                        help='output CPU temperature in degrees Celsius')
-    parser.add_argument('-ru', action='store_true', dest='ram_usage', default=False,
-                        help='output RAM usage in MB')
-    parser.add_argument('-rt', action='store_true', dest='ram_total', default=False,
-                        help='output RAM total in MB')
-    parser.add_argument('-rp', action='store_true', dest='ram_usage_pct', default=False,
-                        help='output RAM usage as a percentage')
-    parser.add_argument('-su', action='store_true', dest='swap_usage', default=False,
-                        help='output Swap usage in MB')
-    parser.add_argument('-st', action='store_true', dest='swap_total', default=False,
-                        help='output Swap total in MB')
-    parser.add_argument('-sp', action='store_true', dest='swap_usage_pct', default=False,
-                        help='output Swap usage as a percentage')
+    # Display help info if no extra arguments were specified or just the '-h' one.
+    if len(sys.argv) == 1 or (len(sys.argv) == 2 and sys.argv[1] == '-h'):
+        display_help()
 
-    # Perform actual command line parameter parsing.
-    args = parser.parse_args()
-
-    # Initialize resulting string to output.
+    # Initialize the resulting string to output.
     result = ''
 
-    # Check if CPU usage percentage should be included.
-    if args.cpu_usage_pct:
-        result = '{}'.format(get_cpu_usage_pct())
-
-    # Check if CPU frequency should be included.
-    if args.cpu_frequency:
-        # Add space if the result already contains a value
-        if result:
-            result += ' '
-        result += '{}'.format(get_cpu_frequency())
-
-    # Check if CPU temperature should be included.
-    if args.cpu_temp:
-        # Add space if the result already contains a value
-        if result:
-            result += ' '
-        result += '{}'.format(get_cpu_temp())
-
-    # Check if RAM usage in MB should be included.
-    if args.ram_usage:
-        # Add space if the result already contains a value
-        if result:
-            result += ' '
-        result += '{}'.format(int(get_ram_usage() / 1024 / 1024))
-
-    # Check if total available RAM in MB should be included.
-    if args.ram_total:
-        # Add space if the result already contains a value
-        if result:
-            result += ' '
-        result += '{}'.format(int(get_ram_total() / 1024 / 1024))
-
-    # Check if RAM usage in percent should be included.
-    if args.ram_usage_pct:
-        # Add space if the result already contains a value
-        if result:
-            result += ' '
-        result += '{}'.format(get_ram_usage_pct())
-
-    # Check if Swap usage in MB should be included.
-    if args.swap_usage:
-        # Add space if the result already contains a value
-        if result:
-            result += ' '
-        result += '{}'.format(int(get_swap_usage() / 1024 / 1024))
-
-    # Check if total available Swap in MB should be included.
-    if args.swap_total:
-        # Add space if the result already contains a value
-        if result:
-            result += ' '
-        result += '{}'.format(int(get_swap_total() / 1024 / 1024))
-
-    # Check if Swap usage in percent should be included.
-    if args.swap_usage_pct:
-        # Add space if the result already contains a value
-        if result:
-            result += ' '
-        result += '{}'.format(get_swap_usage_pct())
+    # Loop through all input arguments, just skipping the first one with the script name.
+    for arg in sys.argv[1:]:
+        # Process the argument and store the string related to the argument.
+        arg_string = process_arg(arg)
+        # Valid string returned?
+        if arg_string:
+            # Add a space to the resulting string if it already contains something.
+            if result:
+                result += ' '
+            # Append argument related string to the resulting string.
+            result += arg_string
 
     # Output the resulting string with values.
     print(result)
+
+
+def display_help():
+    """
+    Displays program help and usage information.
+    """
+    print('usage: yasymon [-h] [-cp] [-cf] [-ct] [-ru] [-rt] [-rp] [-su] [-st] [-sp]')
+    print()
+    print('A program for obtaining CPU, RAM and Swap usage information for monitoring')
+    print('purposes.')
+    print()
+    print('optional arguments:')
+    print('  -h,         show this help message and exit')
+    print('  -cp         output CPU usage as a percentage')
+    print('  -cf         output CPU frequency in MHz')
+    print('  -ct         output CPU temperature in degrees Celsius')
+    print('  -ru         output RAM usage in MB')
+    print('  -rt         output RAM total in MB')
+    print('  -rp         output RAM usage as a percentage')
+    print('  -su         output Swap usage in MB')
+    print('  -st         output Swap total in MB')
+    print('  -sp         output Swap usage as a percentage')
+
+
+def process_arg(arg):
+    """
+    Processes a specific command line argument, excluding the '-h' one. Note that package argparse wasn't used on
+    purpose, because then you cannot get info about the order in which the arguments were specified.
+    :param arg: Command line argument to process.
+    :returns: Output string related to the command line argument
+    :rtype: string
+    """
+    # Initialize the result.
+    result = ''
+
+    # Argument to output CPU usage as a percentage?
+    if arg.strip() == '-cp':
+        result = '{}'.format(get_cpu_usage_pct())
+    # Argument to output CPU frequency in MHz?
+    elif arg.strip() == '-cf':
+        result = '{}'.format(get_cpu_frequency())
+    # Argument to output CPU temperature in degrees Celsius?
+    elif arg.strip() == '-ct':
+        result = '{}'.format(get_cpu_temp())
+    # Argument to output RAM usage in MB?
+    elif arg.strip() == '-ru':
+        result = '{}'.format(int(get_ram_usage() / 1024 / 1024))
+    # Argument to output RAM total in MB?
+    elif arg.strip() == '-rt':
+        result = '{}'.format(int(get_ram_total() / 1024 / 1024))
+    # Argument to output RAM usage as a percentage?
+    elif arg.strip() == '-rp':
+        result = '{}'.format(get_ram_usage_pct())
+    # Argument to output Swap usage in MB?
+    elif arg.strip() == '-su':
+        result = '{}'.format(int(get_swap_usage() / 1024 / 1024))
+    # Argument to output Swap total in MB?
+    elif arg.strip() == '-st':
+        result = '{}'.format(int(get_swap_total() / 1024 / 1024))
+    # Argument to output Swap usage as a percentage?
+    elif arg.strip() == '-sp':
+        result = '{}'.format(get_swap_usage_pct())
+
+    # Give the result back to the caller.
+    return result
 
 
 def get_cpu_usage_pct():
@@ -133,12 +129,13 @@ def get_cpu_temp():
     result = 0.0
     # The first line in this file holds the CPU temperature as an integer times 1000.
     # Read the first line and remove the newline character at the end of the string.
-    with open('/sys/class/thermal/thermal_zone0/temp') as f:
-        line = f.readline().strip()
-    # Test if the string is an integer as expected.
-    if line.isdigit():
-        # Convert the string with the CPU temperature to a float in degrees Celsius.
-        result = float(line) / 1000
+    if os.path.isfile('/sys/class/thermal/thermal_zone0/temp'):
+        with open('/sys/class/thermal/thermal_zone0/temp') as f:
+            line = f.readline().strip()
+        # Test if the string is an integer as expected.
+        if line.isdigit():
+            # Convert the string with the CPU temperature to a float in degrees Celsius.
+            result = float(line) / 1000
     # Give the result back to the caller.
     return result
 
