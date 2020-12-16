@@ -142,6 +142,11 @@ setup(
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=['psutil'],  # Optional
 
+    # This field lists packages that the installer depends on.
+    # Any package you put here will be installed by pip before your project
+    # is installed.
+    setup_requires=['wheel'],
+
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
     # syntax, for example:
