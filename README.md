@@ -52,7 +52,7 @@ This assumes GIT is installed on your Linux system. On Debian you would do this 
 
 Before installing Yasymon, make sure that your Linux system has Python development related packages installed. On Debian you would do this with:
 
-`sudo apt install python3 build-essential python3-dev python3-venv`
+`sudo apt install python3 build-essential python3-dev python3-venv python3-pip`
 
 ### Install system-wide
 
@@ -60,7 +60,7 @@ To install Yasymon on your system, go to the directory where the file `setup.py`
 
 `cd ~/yasymon`
 
-`pip install .`
+`sudo pip3 install .`
 
 Note that this installs both Yasymon and all its dependent packages on your system. If you do not want this, read on about how to install in a virtual environment.
 
@@ -75,6 +75,8 @@ First create the virtual environment and activate it:
 Next, install Yasymon into the virtual environment:
 
 `cd ~/yasymon`
+
+`pip install wheel`
 
 `pip install .`
 
