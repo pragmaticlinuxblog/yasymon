@@ -191,3 +191,8 @@ def get_swap_usage_pct():
     :rtype: float
     """
     return psutil.swap_memory().percent
+    
+    
+if __name__ == "__main__":
+    main()
+

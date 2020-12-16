@@ -40,65 +40,84 @@ optional arguments:
 
 ## Getting the code
 
-To get the code, simple run the following command to clone the GIT repository to a subdirectory inside your own home directory: 
+To get the code, run the following command to clone the GIT repository to a subdirectory inside your own home directory: 
 
 `git clone https://github.com/pragmaticlinuxblog/yasymon.git ~/yasymon`
 
-This assumes GIT is installed on your Linux system. On Debian you would do this with command`sudo apt install git`.
+This assumes GIT is installed on your Linux system. On Debian you would do this with command `sudo apt install git`.
 
-## Building the code
+## Installation
 
-This section outlines how to build the Yasymon code into a standalone binary, with the help of [PyInstaller](https://www.pyinstaller.org/). 
+### Prerequisites
 
-### Installing dependencies
-
-Yasymon uses a package from PyPi. To not unnecessarily install this package on your Linux system, it is recommended to build the code in a Python virtual environment. Make sure the required software for this is installed on your system. On Debian you would do this with:
+Before installing Yasymon, make sure that your Linux system has Python development related packages installed. On Debian you would do this with:
 
 `sudo apt install python3 build-essential python3-dev python3-venv`
 
-### Creating and activate the virtual environment
+### Install system-wide
 
-As a next step we create the virtual environment:
+To install Yasymon on your system, go to the directory where the file `setup.py` is located and install with `pip`. For example on Debian:
+
+`cd ~/yasymon`
+
+`pip install .`
+
+Note that this installs both Yasymon and all its dependent packages on your system. If you do not want this, read on about how to install in a virtual environment.
+
+### Install in a virtual environment
+
+First create the virtual environment and activate it:
 
 `python3 -m venv ~/venv/yasymon`
 
-Once created, we can activate it:
-
 `source ~/venv/yasymon/bin/activate`
 
-### Installing requirements
+Next, install Yasymon into the virtual environment:
 
-With the virtual environment activated, we can go to the source code directory and install the required packages:
+`cd ~/yasymon`
 
-`cd ~/yasymon/source`
+`pip install .`
 
-File *requirements.txt* lists all the packages Yasymon needs to run. To be able to install packages listed in this file, we also need packages `wheel` and  `setuptools`. Later on we also plan on creating a standalone binary, for which we need package `pyinstaller` . The following commands install these requirements automatically:
+You can now start Yasymon with the `yasymon` command inside your virtual environment.
 
-`pip install wheel setuptools pyinstaller -r requirements.txt`
-
-### Building the standalone binary
-
-With the help of PyInstaller we can create a standalone binary of the Yasymon program. This binary file itself back the Python interpreter and the needed packages. So basically one single executable file, which we can move around and even copy to other systems. Here's the command to create the Yasymon standalone binary:
-
-`pyinstaller yasymon.py --onefile`
-
-The resulting binary can be found at:
-
-`~/yasymon/source/dist/yasymon`
-
-### Installing the standalone binary
-
-With the standalone binary created, we can now install it. Simply by copying it to directory `/usr/local/bin`. This makes Yasymon available to all users on the system:
-
-`sudo cp ~/yasymon/source/dist/yasymon /usr/local/bin/yasymon`
-
-### Clean up
-
-With Yasymon built and installed, we can do a bit of housekeeping to remove the virtual environment and sources again. Let's start with deactivating the virtual environment:
+To exit the virtual environment, run:
 
 `deactivate`
 
-As a final step, we remove the virtual environment and the sources:
+### Building a standalone binary
+
+With the help of PyInstaller you can create a standalone binary of the Yasymon program. This binary file itself packs the Python interpreter and the needed packages. So basically one single executable file, which you can move around and even copy to other systems. This has the following benefits:
+
+* The Python packages, which Yasymon depends on, are not installed on your system.
+* In case you went with the virtual environment approach, you do not need to activate a virtual environment each time you want to run Yasymon.
+
+Make sure you created a virtual environment and activated it, as described above and that you installed Yasymon into it. Next, install PyInstaller into the virtual environment:
+
+`pip install pyinstaller`
+
+To create the standalone executable, run the following commands:
+
+`cd ~/yasymon`
+
+`pyinstaller yasymon/app.py --name yasymon --onefile`
+
+The resulting binary can be found at:
+
+`~/yasymon/dist/yasymon`
+
+#### Installing the standalone binary
+
+With the standalone binary created, you can now install it, simply by copying it to directory `/usr/local/bin`. This makes Yasymon available to all users on the system:
+
+`sudo cp ~/yasymon/dist/yasymon /usr/local/bin/yasymon`
+
+#### Clean up
+
+With Yasymon built as a standalone executable and installed, you can do a bit of housekeeping to remove the virtual environment and sources again. Start with deactivating the virtual environment:
+
+`deactivate`
+
+As a final step, remove the virtual environment and the sources:
 
 `cd ~`
 
@@ -107,3 +126,4 @@ As a final step, we remove the virtual environment and the sources:
 If you have no other virtual environments installed in the `venv` directory, you can also remove this one:
 
 `rmdir ~/venv`
+
