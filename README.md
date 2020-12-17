@@ -38,21 +38,19 @@ optional arguments:
   -sp         output Swap usage as a percentage
 ```
 
-## Getting the code
-
-To get the code, run the following command to clone the GIT repository to a subdirectory inside your own home directory: 
-
-`git clone https://github.com/pragmaticlinuxblog/yasymon.git ~/yasymon`
-
-This assumes GIT is installed on your Linux system. On Debian you would do this with command `sudo apt install git`.
-
 ## Installation
 
 ### Prerequisites
 
-Before installing Yasymon, make sure that your Linux system has Python development related packages installed. On Debian you would do this with:
+Before installing Yasymon, make sure that your Linux system has Python and Git development related packages installed. On Debian you would do this with:
 
-`sudo apt install python3 build-essential python3-dev python3-venv python3-pip`
+`sudo apt install git python3 build-essential python3-dev python3-venv python3-pip`
+
+### Getting the code
+
+To get the code, run the following command to clone the Git repository to a subdirectory inside your own home directory: 
+
+`git clone https://github.com/pragmaticlinuxblog/yasymon.git ~/yasymon`
 
 ### Python virtual environment
 
@@ -78,11 +76,11 @@ Run the following commands to create a virtual environment and install Yasymon i
 
 `exit`
 
-All users on your system can now run Yasymon simply by typing `yasymon` in the terminal.
+All users on your system can now run Yasymon, simply by typing `yasymon` in the terminal.
 
 ### Clean up
 
-After completing the Yasymon installation, you can remove the cloned git repository:
+After completing the Yasymon installation, you can remove the cloned Git repository:
 
 `rm -rf ~/yasymon`
 
