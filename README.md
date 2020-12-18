@@ -40,45 +40,19 @@ optional arguments:
 
 ## Installation
 
-### Prerequisites
+Before installing Yasymon, make sure that your Linux system has Python and Git development related packages installed. On Debian/Ubuntu you would do this with:
 
-Before installing Yasymon, make sure that your Linux system has Python and Git development related packages installed. On Debian you would do this with:
+`sudo apt install git make gcc python3 python3-dev python3-venv`
 
-`sudo apt install git python3 build-essential python3-dev python3-venv python3-pip`
-
-### Getting the code
-
-To get the code, run the following command to clone the Git repository to a subdirectory inside your own home directory: 
+To get the code, clone the Git repository to a subdirectory inside your own home directory: 
 
 `git clone https://github.com/pragmaticlinuxblog/yasymon.git ~/yasymon`
 
-### Python virtual environment
+Installing Yasymon is now as simple as running this command:
 
-Because Yasymon depends on packages from the Python Package Index (PyPi), it is recommended to install Yasymon into a dedicated Python virtual environment, instead of directly in your system's Python environment. Otherwise it could eventually happen that another Python program installation needs to install a conflicting version of the same package from the PyPi.
-
-Run the following commands to create a virtual environment and install Yasymon into it:
-
-`cd ~/yasymon`
-
-`sudo su`
-
-`python3 -m venv /opt/venvs/yasymon`
-
-`source /opt/venvs/yasymon/bin/activate`
-
-`pip install wheel`
-
-`pip install .`
-
-`ln -s /opt/venvs/yasymon/bin/yasymon /usr/local/bin/yasymon`
-
-`deactivate`
-
-`exit`
+`sudo make install`
 
 All users on your system can now run Yasymon, simply by typing `yasymon` in the terminal.
-
-### Clean up
 
 After completing the Yasymon installation, you can remove the cloned Git repository:
 
@@ -88,6 +62,5 @@ After completing the Yasymon installation, you can remove the cloned Git reposit
 
 Run the following commands to remove Yasymon from your system:
 
-`sudo rm /usr/local/bin/yasymon`
+`sudo make uninstall`
 
-`sudo rm -rf /opt/venvs/yasymon`

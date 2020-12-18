@@ -1,6 +1,6 @@
 # Generic and reusable Makefile for build testing and installing a Python program into
-# its own dedicated virtual environment. This includes the installation of package
-# dependencies, for example from PyPi, into the virtual environment.
+# its own dedicated virtual environment. This includes the automatic installation of
+# package dependencies, for example from PyPi, into the virtual environment.
 #
 # The installation creates a symlink in /usr/bin/<program name> to make the Python
 # program available to all users.
@@ -12,8 +12,14 @@
 # you normally expect for a C/C++ program. The idea behind this is that it will make
 # DEB and RPM packaging easier.
 #
-# The only configuration you need to make, is specifying the name of your Python program
-# in variable PROGNAME.
+# The only change you need to make, is configuraing the name of your Python program
+# in variable PROGNAME at the top of this file.
+#
+# Using the Makefile assumes that you alraedy installed Python and general development
+# related packages on your system. Example for Debian/Ubuntu:
+#
+#   sudo apt install make gcc python3 python3-dev python3-venv
+#
 
 
 #|---------------------------------------------------------------------------------------
@@ -29,7 +35,7 @@ PROGNAME=yasymon
 # makefile.
 # This target creates a virtual environment in subdirectory "venv" and then attempts
 # to install the python program into it, by running its setup.py. Can be used to see
-# if errors occur.
+# if errors occur, prior to the actual system installation with target "install".
 # Once completed, you can test the python program by running ./venv/bin/<program name>.
 .PHONY: all
 all: venv_build
@@ -73,7 +79,7 @@ install: venv_dist
 #|---------------------------------------------------------------------------------------
 #| Target "uninstall"
 #|---------------------------------------------------------------------------------------
-# Command "sudo unmake install" removes the previously installed python program from the
+# Command "sudo make uninstall" removes the previously installed python program from the
 # Linux system. 
 # If the python program was previously installed in a user directory, you an override the
 # location with variable $(DESTDIR). For example:
