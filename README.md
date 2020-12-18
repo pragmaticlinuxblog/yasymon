@@ -48,19 +48,23 @@ To get the code, clone the Git repository to a subdirectory inside your own home
 
 `git clone https://github.com/pragmaticlinuxblog/yasymon.git ~/yasymon`
 
-Installing Yasymon is now as simple as running this command:
+Alternatively, you can directly download the source code from the [Yasymon repository](https://github.com/pragmaticlinuxblog/yasymon) on GitHub and extract its contents to directory `~/yasymon`.
+
+Installing Yasymon is now as simple as running this command from the `~/yasymon` directory:
 
 `sudo make install`
 
 All users on your system can now run Yasymon, simply by typing `yasymon` in the terminal.
 
-After completing the Yasymon installation, you can remove the cloned Git repository:
+After completing the Yasymon installation, you can remove the cloned / downloaded Git repository:
 
 `rm -rf ~/yasymon`
 
+Note that the installation automatically created a Python virtual environment for you and installed all package dependencies in there. So no need to worry about package version conflicts in your system's Python environment.
+
 ## Removal
 
-Run the following commands to remove Yasymon from your system:
+Run the following command to remove Yasymon from your system:
 
 `sudo make uninstall`
 
