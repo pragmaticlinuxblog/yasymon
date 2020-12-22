@@ -2,5 +2,5 @@
 import app
 
 # Start the application by calling its entry point
-app.main()
+exit(app.main())
 
