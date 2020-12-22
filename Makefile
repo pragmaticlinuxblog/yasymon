@@ -73,7 +73,7 @@ install: venv_dist
 	$(DESTDIR)/usr/lib/$(PROGNAME)/venv/bin/pip install .
 	@echo "+++ Creating symlink $(DESTDIR)/usr/bin/$(PROGNAME)"
 	mkdir -p $(DESTDIR)/usr/bin
-	ln -sf $(DESTDIR)/usr/lib/$(PROGNAME)/venv/bin/$(PROGNAME) $(DESTDIR)/usr/bin/$(PROGNAME)
+	ln -sf ../lib/$(PROGNAME)/venv/bin/$(PROGNAME) $(DESTDIR)/usr/bin/$(PROGNAME)
 	@echo "+++ Completed installation of $(PROGNAME)"
 
 
