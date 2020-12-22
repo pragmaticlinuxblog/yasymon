@@ -61,7 +61,7 @@ clean:
 #| Target "install"
 #|---------------------------------------------------------------------------------------
 # Command "sudo make install" installs the python program on the Linux system. It creates
-# a virtual environment in /usr/share/<program name>/venv/ and installs the python
+# a virtual environment in /usr/lib/<program name>/venv/ and installs the python
 # program and all its dependencies into it. To make the python program available on the
 # path, a symlink is created in /usr/bin/<program name>. 
 # To test the installation first in a user directory, you can override the installation
@@ -69,11 +69,11 @@ clean:
 # "make DESTDIR=/tmp/testing install"
 .PHONY: install
 install: venv_dist
-	@echo "+++ Installing $(PROGNAME) into $(DESTDIR)/usr/share/$(PROGNAME)/venv/"
-	$(DESTDIR)/usr/share/$(PROGNAME)/venv/bin/pip install .
+	@echo "+++ Installing $(PROGNAME) into $(DESTDIR)/usr/lib/$(PROGNAME)/venv/"
+	$(DESTDIR)/usr/lib/$(PROGNAME)/venv/bin/pip install .
 	@echo "+++ Creating symlink $(DESTDIR)/usr/bin/$(PROGNAME)"
 	mkdir -p $(DESTDIR)/usr/bin
-	ln -sf $(DESTDIR)/usr/share/$(PROGNAME)/venv/bin/$(PROGNAME) $(DESTDIR)/usr/bin/$(PROGNAME)
+	ln -sf $(DESTDIR)/usr/lib/$(PROGNAME)/venv/bin/$(PROGNAME) $(DESTDIR)/usr/bin/$(PROGNAME)
 	@echo "+++ Completed installation of $(PROGNAME)"
 
 
@@ -89,8 +89,8 @@ install: venv_dist
 uninstall:
 	@echo "+++ Removing symlink $(DESTDIR)/usr/bin/$(PROGNAME)"
 	rm -f $(DESTDIR)/usr/bin/$(PROGNAME)
-	@echo "+++ Removing $(DESTDIR)/usr/share/$(PROGNAME)"
-	rm -rf $(DESTDIR)/usr/share/$(PROGNAME)
+	@echo "+++ Removing $(DESTDIR)/usr/lib/$(PROGNAME)"
+	rm -rf $(DESTDIR)/usr/lib/$(PROGNAME)
 	@echo "+++ Completed removal of $(PROGNAME)"
 
 	
@@ -118,14 +118,14 @@ venv/bin/pip:
 # Internally used target for creating a virtual environment for the actual installation
 # of the python program.
 .PHONY: venv_dist
-venv_dist: $(DESTDIR)/usr/share/$(PROGNAME)/venv/bin/wheel
+venv_dist: $(DESTDIR)/usr/lib/$(PROGNAME)/venv/bin/wheel
 	@echo "+++ Completed setup of the virtual environment"  
 
-$(DESTDIR)/usr/share/$(PROGNAME)/venv/bin/wheel: $(DESTDIR)/usr/share/$(PROGNAME)/venv/bin/pip
+$(DESTDIR)/usr/lib/$(PROGNAME)/venv/bin/wheel: $(DESTDIR)/usr/lib/$(PROGNAME)/venv/bin/pip
 	@echo "+++ Installing wheel into the virtual environmnet"
-	$(DESTDIR)/usr/share/$(PROGNAME)/venv/bin/pip install wheel
+	$(DESTDIR)/usr/lib/$(PROGNAME)/venv/bin/pip install wheel
 
-$(DESTDIR)/usr/share/$(PROGNAME)/venv/bin/pip: 
-	@echo "+++ Creating virtual environment in $(DESTDIR)/usr/share/$(PROGNAME)/venv/"
-	python3 -m venv $(DESTDIR)/usr/share/$(PROGNAME)/venv
+$(DESTDIR)/usr/lib/$(PROGNAME)/venv/bin/pip: 
+	@echo "+++ Creating virtual environment in $(DESTDIR)/usr/lib/$(PROGNAME)/venv/"
+	python3 -m venv $(DESTDIR)/usr/lib/$(PROGNAME)/venv
 

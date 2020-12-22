@@ -1,0 +1,7 @@
+# Lintian does not agree with the files installed in the virtual environment. However,
+# the virtual environment approach is better than installing the dependencies in the
+# Python's global system environment. Therefore these lintian errors were overriden.
+yasymon: package-installs-python-pycache-dir
+yasymon: portable-executable-missing-security-features
+yasymon: wrong-path-for-interpreter
+yasymon: python-script-but-no-python-dep
