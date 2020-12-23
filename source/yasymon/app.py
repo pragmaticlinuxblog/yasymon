@@ -1,5 +1,5 @@
 """
-A program for obtaining CPU, RAM and Swap usage information for monitoring purposes.
+Program for obtaining CPU, RAM and Swap usage information for monitoring purposes.
 """
 __docformat__ = 'reStructuredText'
 
@@ -41,7 +41,7 @@ def display_help():
     """
     print('usage: yasymon [-h] [-cp] [-cf] [-ct] [-ru] [-rt] [-rp] [-su] [-st] [-sp]')
     print()
-    print('A program for obtaining CPU, RAM and Swap usage information for monitoring')
+    print('Program for obtaining CPU, RAM and Swap usage information for monitoring')
     print('purposes.')
     print()
     print('optional arguments:')

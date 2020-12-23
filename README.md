@@ -50,7 +50,9 @@ To get the code, clone the Git repository to a subdirectory inside your own home
 
 Alternatively, you can directly download the source code from the [Yasymon repository](https://github.com/pragmaticlinuxblog/yasymon) on GitHub and extract its contents to directory `~/yasymon`.
 
-Installing Yasymon is now as simple as running this command from the `~/yasymon` directory:
+Installing Yasymon is now as simple as running these commands from the `~/yasymon` directory:
+
+`make clean all`
 
 `sudo make install`
 
