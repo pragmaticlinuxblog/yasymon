@@ -60,8 +60,6 @@ After completing the Yasymon installation, you can remove the cloned / downloade
 
 `rm -rf ~/yasymon`
 
-Note that the installation automatically created a Python virtual environment for you and installed all package dependencies in there. So no need to worry about package version conflicts in your system's Python environment.
-
 ## Removal
 
 Run the following command to remove Yasymon from your system:
