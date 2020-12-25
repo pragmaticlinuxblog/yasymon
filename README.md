@@ -40,9 +40,12 @@ optional arguments:
 
 ## Installation
 
-Before installing Yasymon, make sure that your Linux system has Python and Git development related packages installed. On Debian/Ubuntu you would do this with:
+Before installing Yasymon, make sure that your Linux system has Python and Git development related packages installed. 
 
-`sudo apt install git make gcc python3 python3-dev python3-venv`
+* Debian: `sudo apt install git make gcc python3 python3-dev virtualenv`
+* Ubuntu: `sudo apt install git make gcc python3 python3-dev virtualenv`
+* Fedora: `sudo dnf install git make gcc python3 python3-devel python3-virtualenv`
+* openSUSE: `sudo zypper install git make gcc python3 python3-devel python3-virtualenv`
 
 To get the code, clone the Git repository to a subdirectory inside your own home directory: 
 

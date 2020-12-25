@@ -11,10 +11,11 @@
 #
 #   sudo make uninstall
 #
-# While buildng the standalone executable with target 'all', a Python virtual environment
-# is automatically created. All dependencies are installed into this virtual environment,
-# including PyInstaller. Once done, PyInstaller creates the actual standalone executable.
-
+# While building the standalone executable with target 'all', a Python virtual
+# environment is automatically created. All dependencies are installed into this virtual
+# environment, including PyInstaller. Once done, PyInstaller creates the actual
+# standalone executable.
+#
 # This Makefile should be stored in the same directory as where your Python program's
 # "setup.py" file is located. 
 #
@@ -25,10 +26,13 @@
 # The only change you need to make, is configuring the name of your Python program
 # in variable PROGNAME at the top of this file.
 #
-# Using the Makefile assumes that you already installed Python and general development
-# related packages on your Linux system. Example for Debian/Ubuntu:
-#
-#   sudo apt install build-essential python3 python3-dev python3-venv
+# Using the Makefile assumes that you already installed Python and its development
+# related packages on your Linux system:
+# 
+# * Debian:   sudo apt install make gcc python3 python3-dev virtualenv
+# * Ubuntu:   sudo apt install make gcc python3 python3-dev virtualenv
+# * Fedora:   sudo dnf install make gcc python3 python3-devel python3-virtualenv
+# * openSUSE: sudo zypper install make gcc python3 python3-devel python3-virtualenv
 #
 
 
@@ -50,7 +54,7 @@ PROGNAME=yasymon
 all: venv_build
 	@echo "+++ Installing $(PROGNAME) into the virtual environment"
 	venv/bin/pip3 install .
-	@echo "+++ Creating $(PROGNAME) standalone executable with PyInstaller"
+	@echo "+++ Creating $(PROGNAME) standalone executable with pyinstaller"
 	venv/bin/pyinstaller --onefile venv/bin/$(PROGNAME)
 	@echo "+++ Completed setup of $(PROGNAME) into the virtual environment"
 
@@ -109,20 +113,11 @@ uninstall:
 venv_build: venv/bin/pyinstaller
 	@echo "+++ Completed setup of the virtual environment"  
 
-venv/bin/pyinstaller: venv/bin/wheel
-	@echo "+++ Installing wheel into the virtual environment"
+venv/bin/pyinstaller: venv/bin/pip3
+	@echo "+++ Installing pyinstaller into the virtual environment"
 	venv/bin/pip3 install pyinstaller
 
-venv/bin/wheel: venv/bin/pip3
-	@echo "+++ Installing wheel into the virtual environment"
-	venv/bin/pip3 install wheel
-
-venv/bin/pip3: venv/bin/python3
-	@echo "+++ Installing pip into the virtual environment"
-	venv/bin/python3 -m ensurepip --upgrade
-	venv/bin/pip3 install --upgrade pip	
-	
-venv/bin/python3: 
+venv/bin/pip3: 
 	@echo "+++ Creating virtual environment in venv/"
-	python3 -m venv --without-pip venv
+	virtualenv --python=python3 venv
 
