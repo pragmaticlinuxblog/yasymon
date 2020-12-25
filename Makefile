@@ -49,7 +49,7 @@ PROGNAME=yasymon
 .PHONY: all
 all: venv_build
 	@echo "+++ Installing $(PROGNAME) into the virtual environment"
-	venv/bin/pip install .
+	venv/bin/pip3 install .
 	@echo "+++ Creating $(PROGNAME) standalone executable with PyInstaller"
 	venv/bin/pyinstaller --onefile venv/bin/$(PROGNAME)
 	@echo "+++ Completed setup of $(PROGNAME) into the virtual environment"
@@ -111,14 +111,17 @@ venv_build: venv/bin/pyinstaller
 
 venv/bin/pyinstaller: venv/bin/wheel
 	@echo "+++ Installing wheel into the virtual environment"
-	venv/bin/pip install pyinstaller
+	venv/bin/pip3 install pyinstaller
 
-venv/bin/wheel: venv/bin/pip
+venv/bin/wheel: venv/bin/pip3
 	@echo "+++ Installing wheel into the virtual environment"
-	venv/bin/pip install wheel
+	venv/bin/pip3 install wheel
 
-venv/bin/pip: 
-	@echo "+++ Creating virtual environment in venv/"
-	python3 -m venv venv
+venv/bin/pip3: venv/bin/python3
+	@echo "+++ Installing pip into the virtual environment"
+	venv/bin/python3 -m ensurepip --upgrade
 	
+venv/bin/python3: 
+	@echo "+++ Creating virtual environment in venv/"
+	python3 -m venv --without-pip venv
 
