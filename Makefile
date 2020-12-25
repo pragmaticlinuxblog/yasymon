@@ -120,6 +120,7 @@ venv/bin/wheel: venv/bin/pip3
 venv/bin/pip3: venv/bin/python3
 	@echo "+++ Installing pip into the virtual environment"
 	venv/bin/python3 -m ensurepip --upgrade
+	pip3 install --upgrade pip	
 	
 venv/bin/python3: 
 	@echo "+++ Creating virtual environment in venv/"
