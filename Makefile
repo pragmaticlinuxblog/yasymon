@@ -29,10 +29,10 @@
 # Using the Makefile assumes that you already installed Python and its development
 # related packages on your Linux system:
 # 
-# * Debian:   sudo apt install make gcc python3 python3-dev virtualenv
-# * Ubuntu:   sudo apt install make gcc python3 python3-dev virtualenv
-# * Fedora:   sudo dnf install make gcc python3 python3-devel python3-virtualenv
-# * openSUSE: sudo zypper install make gcc python3 python3-devel python3-virtualenv
+# * Debian:   sudo apt install make gcc python3 python3-dev virtualenv pandoc
+# * Ubuntu:   sudo apt install make gcc python3 python3-dev virtualenv pandoc
+# * Fedora:   sudo dnf install make gcc python3 python3-devel python3-virtualenv pandoc
+# * openSUSE: sudo zypper install make gcc python3 python3-devel python3-virtualenv pandoc
 #
 
 
@@ -56,6 +56,8 @@ all: venv_build
 	venv/bin/pip3 install .
 	@echo "+++ Creating $(PROGNAME) standalone executable with pyinstaller"
 	venv/bin/pyinstaller --onefile venv/bin/$(PROGNAME)
+	@echo "+++ Creating $(PROGNAME) man-page with pandoc"
+	pandoc docs/man/$(PROGNAME).1.md -s -t man -V "header:User Manual" -o docs/man/$(PROGNAME).1
 	@echo "+++ Completed setup of $(PROGNAME) into the virtual environment"
 
 
@@ -71,6 +73,7 @@ clean:
 	rm -rf dist
 	rm -rf venv
 	rm -f $(PROGNAME).spec
+	rm -f docs/man/$(PROGNAME).1
 	@echo "+++ Clean complete"  
 
 
