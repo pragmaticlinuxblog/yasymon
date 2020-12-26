@@ -32,7 +32,7 @@ make clean
 %files
 %defattr(-,root,root)
 %{_bindir}/yasymon
-%{_mandir}/man1/yasymon.1
+%{_mandir}/man1/yasymon.1*
 
 %changelog
 * Sat Dec 26 12:05:59 CET 2020 PragmaticLinux <info@pragmaticlinux.com> - 0.1.0-1

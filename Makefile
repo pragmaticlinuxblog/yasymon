@@ -57,7 +57,7 @@ all: venv_build
 	@echo "+++ Creating $(PROGNAME) standalone executable with pyinstaller"
 	venv/bin/pyinstaller --onefile venv/bin/$(PROGNAME)
 	@echo "+++ Creating $(PROGNAME) man-page with pandoc"
-	pandoc docs/man/$(PROGNAME).1.md -s -t man -V "header:User Manual" -o docs/man/$(PROGNAME).1
+	pandoc docs/man/$(PROGNAME).1.md -s -t man -o docs/man/$(PROGNAME).1
 	@echo "+++ Completed setup of $(PROGNAME) into the virtual environment"
 
 

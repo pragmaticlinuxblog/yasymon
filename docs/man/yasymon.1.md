@@ -1,6 +1,10 @@
-% YASYMON(1) yasymon 0.1.0
-% Written by PragmaticLinux
-% December 2020
+---
+title: YASYMON
+section: 1
+header: User Manual
+footer: yasymon 0.1.0
+date: December 26, 2020
+---
 
 # NAME
 
@@ -57,7 +61,12 @@ It can serve as a flexible building block for creating your own system monitor t
 **0**
 : Success
 
+# AUTHOR
+
+Written by PragmaticLinux.
+
 # REPORTING BUGS
+
 Submit bug reports online at: <https://github.com/pragmaticlinuxblog/yasymon/issues>
 
 # COPYRIGHT
