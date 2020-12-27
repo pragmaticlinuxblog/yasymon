@@ -88,7 +88,7 @@ clean:
 install:
 	@echo "+++ Installing $(PROGNAME) into $(DESTDIR)/usr/bin/"
 	mkdir -p $(DESTDIR)/usr/bin
-	cp dist/$(PROGNAME) $(DESTDIR)/usr/bin/$(PROGNAME)
+	install -m 0755 dist/$(PROGNAME) $(DESTDIR)/usr/bin/$(PROGNAME)
 	@echo "+++ Completed installation of $(PROGNAME)"
 
 
