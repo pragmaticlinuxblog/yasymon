@@ -1,9 +1,10 @@
 Name: yasymon
 Version: 0.1.0
 Release: 1
-Summary: Program for obtaining CPU, RAM and Swap usage information.  
+Summary: Program for obtaining CPU, RAM and Swap usage information  
 
 License: MIT        
+Group: System/Monitoring
 URL: https://github.com/pragmaticlinuxblog/yasymon            
 Source0: yasymon-%{version}.tar.gz
 
