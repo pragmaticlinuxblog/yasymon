@@ -145,7 +145,7 @@ setup(
     # This field lists packages that the installer depends on.
     # Any package you put here will be installed by pip before your project
     # is installed.
-    setup_requires=['wheel'],
+    # setup_requires=['wheel'],
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"

@@ -39,7 +39,24 @@
 #|---------------------------------------------------------------------------------------
 #| Configure the program name
 #|---------------------------------------------------------------------------------------
-PROGNAME=yasymon
+PROGNAME = yasymon
+
+
+#|---------------------------------------------------------------------------------------
+#| Set flags for the "pip" command
+#|---------------------------------------------------------------------------------------
+# During a build, Python package dependencies are downloaded from PyPi and installed into
+# the Python virtual environment. This assumes the availability of an Internet
+# connection during the build. This Makefile also supports offline builds, in case no
+# Internet connection is available. For this you would first manually download the Python
+# package dependencies and store them in a certain directory. Next, you specify this
+# directory with the help of variable PYPACKDIR. For example when calling make:
+# "make PYPACKDIR=../../SOURCES all"
+# This automatically updates the PIP_FLAGS such that "pip" will not access the PyPi and
+# instead look for the needed Python packages in directory PYPACKDIR.
+ifneq ($(PYPACKDIR),)
+PIP_FLAGS = --no-index --find-links=$(PYPACKDIR)
+endif
 
 
 #|---------------------------------------------------------------------------------------
@@ -53,7 +70,7 @@ PROGNAME=yasymon
 .PHONY: all
 all: venv_build
 	@echo "+++ Installing $(PROGNAME) into the virtual environment"
-	venv/bin/pip3 install .
+	venv/bin/pip3 install $(PIP_FLAGS) .
 	@echo "+++ Creating $(PROGNAME) standalone executable with pyinstaller"
 	venv/bin/pyinstaller --onefile venv/bin/$(PROGNAME)
 	@echo "+++ Creating $(PROGNAME) man-page with pandoc"
@@ -118,7 +135,7 @@ venv_build: venv/bin/pyinstaller
 
 venv/bin/pyinstaller: venv/bin/pip3
 	@echo "+++ Installing pyinstaller into the virtual environment"
-	venv/bin/pip3 install pyinstaller
+	venv/bin/pip3 install $(PIP_FLAGS) pyinstaller
 
 venv/bin/pip3: 
 	@echo "+++ Creating virtual environment in venv/"
