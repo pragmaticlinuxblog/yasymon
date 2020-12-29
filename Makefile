@@ -80,7 +80,7 @@ all: venv_build
 	@echo "+++ Creating subdirectory dist"
 	mkdir dist
 	@echo "+++ Creating $(PROGNAME) standalone executable with shiv"
-	venv/bin/shiv -c $(PROGNAME) -o dist/$(PROGNAME) ./
+	venv/bin/shiv -p '/usr/bin/env python3' -c $(PROGNAME) -o dist/$(PROGNAME) ./
 	@echo "+++ Creating $(PROGNAME) man-page with pandoc"
 	pandoc docs/man/$(PROGNAME).1.md -s -t man -o docs/man/$(PROGNAME).1
 	@echo "+++ Completed setup of $(PROGNAME) into the virtual environment"
