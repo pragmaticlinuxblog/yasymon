@@ -1,6 +1,6 @@
 # Generic and reusable Makefile for creating a standalone executable of a Python program,
-# with the help of PyInstaller. The resulting standalone executuble can optionally be
-# installed on the Linux system.
+# with the help of Shiv. The resulting standalone executuble can optionally be installed
+# on the Linux system.
 #
 # Usage for installation:
 #
@@ -13,8 +13,14 @@
 #
 # While building the standalone executable with target 'all', a Python virtual
 # environment is automatically created. All dependencies are installed into this virtual
-# environment, including PyInstaller. Once done, PyInstaller creates the actual
+# environment, including Shiv. Once done, Shiv creates the actual
 # standalone executable.
+#
+# Note that the Shiv created standalone executable is a so called "zipapp". This means
+# that it includes the Python program and its dependencies, but not the actual Python
+# interpreter. So the Linux system where you want to run the standalone executable on,
+# should have a Python interpreter installed. This is the case for pretty much all 
+# Linux distributions.
 #
 # This Makefile should be stored in the same directory as where your Python program's
 # "setup.py" file is located. 
@@ -65,14 +71,16 @@ endif
 # Command "make all" or simply just "make", because this is the first target in the
 # makefile. This target creates a virtual environment in subdirectory "venv" and then
 # attempts to install the python program into it, by running its setup.py. Next, it runs
-# PyInstaller to create the standalone executable of your Python program. Once completed,
-# you can test the resulting executable by running ./dist/<program name>.
+# Shiv to create the standalone executable of your Python program. Once completed,
+# you can test the resulting executable by running ./dist/<program name>. 
 .PHONY: all
 all: venv_build
 	@echo "+++ Installing $(PROGNAME) into the virtual environment"
 	venv/bin/pip3 install $(PIP_FLAGS) .
-	@echo "+++ Creating $(PROGNAME) standalone executable with pyinstaller"
-	venv/bin/pyinstaller --onefile venv/bin/$(PROGNAME)
+	@echo "+++ Creating subdirectory dist"
+	mkdir dist
+	@echo "+++ Creating $(PROGNAME) standalone executable with shiv"
+	venv/bin/shiv -c $(PROGNAME) -o dist/$(PROGNAME) ./
 	@echo "+++ Creating $(PROGNAME) man-page with pandoc"
 	pandoc docs/man/$(PROGNAME).1.md -s -t man -o docs/man/$(PROGNAME).1
 	@echo "+++ Completed setup of $(PROGNAME) into the virtual environment"
@@ -82,14 +90,12 @@ all: venv_build
 #| Target "clean"
 #|---------------------------------------------------------------------------------------
 # Command "make clean" removes the virtual environment and all files and directories
-# that were created by PyInstaller.
+# that were created by Shiv.
 .PHONY: clean
 clean:
 	@echo "+++ Cleaning build environment"
-	rm -rf build
 	rm -rf dist
 	rm -rf venv
-	rm -f $(PROGNAME).spec
 	rm -f docs/man/$(PROGNAME).1
 	@echo "+++ Clean complete"  
 
@@ -128,14 +134,14 @@ uninstall:
 #| Target "venv_build"
 #|---------------------------------------------------------------------------------------
 # Internally used target for creating a virtual environment for building the standalone
-# executable of the program, with the help of PyInstaller
+# executable of the program, with the help of Shiv
 .PHONY: venv_build
-venv_build: venv/bin/pyinstaller
+venv_build: venv/bin/shiv
 	@echo "+++ Completed setup of the virtual environment"  
 
-venv/bin/pyinstaller: venv/bin/pip3
-	@echo "+++ Installing pyinstaller into the virtual environment"
-	venv/bin/pip3 install $(PIP_FLAGS) pyinstaller
+venv/bin/shiv: venv/bin/pip3
+	@echo "+++ Installing shiv into the virtual environment"
+	venv/bin/pip3 install $(PIP_FLAGS) shiv
 
 venv/bin/pip3: 
 	@echo "+++ Creating virtual environment in venv/"
