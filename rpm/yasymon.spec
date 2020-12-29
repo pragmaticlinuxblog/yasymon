@@ -9,6 +9,7 @@ URL: https://github.com/pragmaticlinuxblog/yasymon
 Source0: yasymon-%{version}.tar.gz
 
 BuildRequires: make gcc python3 python3-devel python3-virtualenv pandoc 
+Requires: python3
 
 %define debug_package %{nil}
 
